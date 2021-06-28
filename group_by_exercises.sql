@@ -25,23 +25,15 @@ GROUP BY first_name, gender
 ORDER BY count DESC;
 
 #8: 285872
-SET @u := (SELECT lower(concat(substr(first_name, 1, 1), substr(last_name, 1, 4),
-			'_', substr(birth_date, 6, 2), substr(birth_date, 3, 2))) FROM employees);
-
 SELECT DISTINCT(lower(concat(substr(first_name, 1, 1), substr(last_name, 1, 4),
-			'_', substr(birth_date, 6, 2), substr(birth_date, 3, 2)))) 'username',
-		COUNT(lower(concat(substr(first_name, 1, 1), substr(last_name, 1, 4),
-			'_', substr(birth_date, 6, 2), substr(birth_date, 3, 2)))) 'total'
+		'_', substr(birth_date, 6, 2), substr(birth_date, 3, 2)))) 'username',
+		COUNT('username') 'total'
 FROM employees
 GROUP BY username
 ORDER BY total DESC;
 
 #B: 300024 - 285872 = 14152 duplicates
-SELECT DISTINCT(lower(concat(substr(first_name, 1, 1), substr(last_name, 1, 4),
-			'_', substr(birth_date, 6, 2), substr(birth_date, 3, 2)))) 'username',
-		COUNT(lower(concat(substr(first_name, 1, 1), substr(last_name, 1, 4),
-			'_', substr(birth_date, 6, 2), substr(birth_date, 3, 2)))) 'total'
-FROM employees;
-GROUP BY username
-HAVING total > 1
-ORDER BY total DESC;
+SELECT COUNT(*) - COUNT(DISTINCT(lower(concat(substr(first_name, 1, 1), substr(last_name, 1, 4),
+		'_', substr(birth_date, 6, 2), substr(birth_date, 3, 2))))) 'dupes' FROM employees;
+		
+
