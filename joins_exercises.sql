@@ -51,5 +51,26 @@ WHERE d.dept_name = 'Marketing' AND s.to_date = '9999-01-01'
 ORDER BY s.salary DESC
 LIMIT 7;
 
+#B2 top burner by dept
+#you COULD look through the list yourself
+SELECT salary, dept_name, emp_no, last_name, first_name
+
+FROM employees e
+JOIN dept_emp de using(emp_no)
+JOIN departments d using(dept_no)
+JOIN salaries s using(emp_no)
+
+WHERE s.to_date > current_date
+ORDER BY salary DESC;
+#pesch (sal), warwick (mar), hanabata (cs), sgarro (devt),
+#swick (fin), flowers (hr), cronau (prod), luck (qm), soicher (res)
+
+#or spend time and write a good query
+SELECT dept_no, max(salary) as maximus
+FROM salaries s #not employees
+JOIN dept_emp de using(emp_no)
+WHERE s.to_date = '9999-01-01' AND de.to_date = '9999-01-01'
+GROUP BY dept_no
+ORDER BY maximus DESC;
 
 
