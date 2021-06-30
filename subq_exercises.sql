@@ -22,7 +22,7 @@ where emp_no IN (
 		select emp_no from employees
 		where to_date < current_date);
 		
-#4 four women managers but no subquery
+#4, bonus1 four women managers but no subquery
 select dept_name, last_name, gender from dept_manager
 	join employees using(emp_no)
 	join departments using(dept_no)
@@ -45,6 +45,13 @@ where to_date > current_date
 		AND (select avg(salary)+std(salary) from salaries)
 ORDER BY salary DESC;
 
-
+#B2-3 Find the dept. & name of the employee with the highest salary.
+select dept_name, last_name, first_name, salary from employees
+	join salaries s using(emp_no)
+	join dept_emp using(emp_no)
+	join departments using(dept_no)
+where s.to_date > current_date
+order by salary desc
+limit 3;
 
 

@@ -37,7 +37,7 @@ FROM employees e
 JOIN dept_emp de ON de.emp_no = e.emp_no
 JOIN departments d ON d.dept_no = de.dept_no
 JOIN salaries s ON s.emp_no = e.emp_no
-WHERE s.to_date = '9999-01-01'
+WHERE s.to_date > now()
 GROUP BY dept_name
 ORDER BY ave_salary DESC;
 
@@ -72,5 +72,17 @@ JOIN dept_emp de using(emp_no)
 WHERE s.to_date = '9999-01-01' AND de.to_date = '9999-01-01'
 GROUP BY dept_no
 ORDER BY maximus DESC;
+
+
+#B10 all current employees' names, department names, & current managers
+select concat(e.last_name, ', ', e.first_name) name_, dept_name,
+		 concat(e2.last_name, ', ', e2.first_name) manager #dm.emp_no manager
+from employees e
+	join dept_emp de using(emp_no)
+	join departments using(dept_no)
+	join dept_manager dm using(dept_no)
+	join employees e2 on e2.emp_no = dm.emp_no
+where de.to_date > current_date
+	and dm.to_date > current_date;
 
 
