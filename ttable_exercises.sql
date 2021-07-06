@@ -1,15 +1,15 @@
 use employees;
+
 #create temporary table employees_with_departments
-select concat(last_name, ', ',first_name) name, dept_name
+select length(concat(first_name, ' ',last_name)) full_name, dept_name
 from employees
 	join dept_emp d using(emp_no)
 	join departments using(dept_no)
 where d.to_date > now();
 
-select round(std(salary),2) std, round(avg(salary),2) mean
-from salaries;
-
-select dept_name, round((avg(salary)-63811)/16905, 2)
+select dept_name, round((avg(salary) - (
+					select avg(salary) from salaries)) / (
+				 select std(salary) from salaries), 2) z
 from salaries
 	join dept_emp d using(emp_no)
 	join departments using(dept_no)
