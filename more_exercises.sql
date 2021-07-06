@@ -56,3 +56,13 @@ from country
 join city on city.countrycode = country.code
 where city.name = 'Cary';
 
+#BoNuS sAkIlA
+use sakila;
+
+select first_name, phone, title from customer
+join address using(address_id)
+join rental using(customer_id)
+join inventory using(inventory_id)
+join film using(film_id)
+where return_date is null;
+
