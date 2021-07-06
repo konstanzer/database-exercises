@@ -39,28 +39,20 @@ where to_date > current_date
 order by salary;
 
 
-#6:  count(x) > max-sigma = 83
-select count(salary)
-from salaries where to_date > now()
-	and salary > (select max(salary)-std(salary)
-					from salaries where to_date > now());
-#0.03% of all peons
-select (select count(salary) from salaries where to_date > now()
-			and salary > (select max(salary)-std(salary)
-								from salaries where to_date > now())) /
-		(select count(salary)from salaries where to_date > now()) barons;
+###6:  count(x) > max-sigma = 83
+select count(salary) top
+from salaries where to_date > current_date
+	and salary > (select max(salary) - std(salary)
+						from salaries where to_date > current_date);
+#0.03% of all
+select (select count(salary)
+			from salaries where to_date > current_date
+				and salary > (select max(salary) - std(salary)
+									from salaries where to_date > current_date)) /
+						 					(select count(salary) from salaries
+						 				where to_date > current_date) centile;
 ####
 
-select * from (select std(salary) from salaries where to_date > now()) std;
-
-select (select max(salary) from salaries) as max, min(salary) as min from salaries;
-
-#??
-select count(salary), (select std(salary) from salaries where to_date > now()) stdev,
-		(select avg(salary) from salaries where to_date > now()) average,
-from salaries where to_date > now() and salary between (average-stdev) and (average+stdev);
-
-select avg(salary)-std(salary), avg(salary)+std(salary) from salaries where to_date > now();
 
 #B2-3 Find the dept. & name of the employee with the highest salary.
 select dept_name, last_name, first_name, salary from employees
