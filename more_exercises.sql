@@ -27,17 +27,32 @@ group by region;
 #5
 select sum(population), continent from country
 group by continent;
-#6 --this is wrong, should be weighted by population
-select avg(lifeexpectancy) from country;
+
+#6 --should be weighted by population!
+select sum(population * lifeexpectancy /
+						(select sum(population) from country))
+from country;
+
 #7
 select avg(lifeexpectancy) life, continent from country
 group by continent
 order by life;
-#B
 
-use sakila;
+#bOnUs
+select name, localname from country
+where localname != name;
 
+select name, lifeexpectancy
+from country
+where lifeexpectancy < 40;
 
+select district, country.name, region from country
+join city on city.countrycode = country.code
+where city.name = 'Dallas';
 
-
+#note this is country, not city, life expectancy
+select city.name, lifeexpectancy
+from country
+join city on city.countrycode = country.code
+where city.name = 'Cary';
 
